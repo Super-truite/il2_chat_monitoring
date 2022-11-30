@@ -81,34 +81,36 @@ def save_chat(List_parsed):
     return List_parsed2
 
 def detect_commands(parsed_messages):
-    print(parsed_messages)
-    for a in parsed_messages:
-        if 'request artillery at grid' in a["message"]:
-            if a["receiver"] == "COALITION":
-                # TODO: allowed artillery players
-                if a["author"].replace('"', '') in ALLOWED_CALLERS:
-                    grid, key, subkey, subsubkey = tuple(a["message"].split('request artillery at grid ')[-1].split())
-                    # Allies
-                    if a["coalition"] == "1":
-                        command = '$RC serverinput artillery_allies_{0}_{1}_{2}_{3}'.format(grid, key, subkey, subsubkey)
-                        safe_call_command(command)
-                        time.sleep(2)
-                        safe_call_command('$RC chatmsg 3 1 Thunder: Copy, Firing at grid {0} {1} {2} {3}'.format(grid, key, subkey, subsubkey))
-                    # Axis
-                    if a["coalition"] == "2":
-                        command = '$RC serverinput artillery_axis_{0}_{1}_{2}_{3}'.format(grid, key, subkey, subsubkey)
-                        safe_call_command(command)
-                        time.sleep(2)
-                        safe_call_command('$RC chatmsg 3 2 Thunder: Copy, Firing at grid {0} {1} {2} {3}'.format(grid, key, subkey, subsubkey))
+    if len(parsed_messages) != 0:
+        print(parsed_messages)
+        for a in parsed_messages:
+            if 'request artillery at grid' in a["message"]:
+                if a["receiver"] == "COALITION":
+                    # TODO: allowed artillery players
+                    if a["author"].replace('"', '') in ALLOWED_CALLERS:
+                        grid, key, subkey, subsubkey = tuple(a["message"].split('request artillery at grid ')[-1].split())
+                        # Allies
+                        if a["coalition"] == "1":
+                            command = '$RC serverinput artillery_allies_{0}_{1}_{2}_{3}'.format(grid, key, subkey, subsubkey)
+                            safe_call_command(command)
+                            time.sleep(2)
+                            safe_call_command('$RC chatmsg 3 1 Thunder: Copy, Firing at grid {0} {1} {2} {3}'.format(grid, key, subkey, subsubkey))
+                        # Axis
+                        if a["coalition"] == "2":
+                            command = '$RC serverinput artillery_axis_{0}_{1}_{2}_{3}'.format(grid, key, subkey, subsubkey)
+                            safe_call_command(command)
+                            time.sleep(2)
+                            safe_call_command('$RC chatmsg 3 2 Thunder: Copy, Firing at grid {0} {1} {2} {3}'.format(grid, key, subkey, subsubkey))
+                    else:
+                        safe_call_command('$RC chatmsg {0} COALITION Server: You are not authorized to use the artillery, please ask an admin!'.format(a["coalition"]))    
                 else:
-                    safe_call_command('$RC chatmsg {0} COALITION Server: You are not authorized to use the artillery, please ask an admin!'.format(a["coalition"]))    
-            else:
-                safe_call_command('$RC chatmsg {0} COALITION Server: You need to use those commands in coalition chat, not general chat!'.format(a["coalition"]))
+                    safe_call_command('$RC chatmsg {0} COALITION Server: You need to use those commands in coalition chat, not general chat!'.format(a["coalition"]))
 
 
 call_command('$RC cutchatlog')
 time.sleep(2)
-save_chat([])      
+save_chat([]) 
+print("Chat monitoring connected. Waiting for new messages...")     
 while(True):
     mission = ''
     call_command('$RC cutchatlog')
