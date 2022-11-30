@@ -8,7 +8,7 @@ Please follow the instructions p:173 of JimTM's guide (https://forum.il2sturmovi
 to setup your remote console. 
 
 ## Download the release executable
-Download and extract the .zip of the latest release here: https://github.com/Super-truite/il2_chat_monitoring/releases
+Download and extract on your server, the .zip of the latest release here: https://github.com/Super-truite/il2_chat_monitoring/releases
 
 ## Configure
 In the dist sub folder, in the config.ini file, fill the information regarding your remote console, who you want to be able to use the artillery
@@ -24,3 +24,12 @@ PASSWORD_REMOTE_CONSOLE = my_password
 IL2_DATA_PATH = D:\\IL2Dserver\\IL-2 Sturmovik Great Battles\\data\\
 ```
 Names of the allowed callers are the ingame names
+
+## Launching
+Launch monitor_chat.exe
+
+## Usage
+In the ingame coalition chat (Ctrl+Enter), For a target located at grid 0303 7 8 9 (8 and 9 are sub and subsub keypads you have to imagine inside the 7 keypad) type:
+```
+ request artillery at grid 0303 7 8 9
+```
